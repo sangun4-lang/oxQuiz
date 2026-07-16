@@ -1,0 +1,2731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OX 문제풀이</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #1f76e8;
+      --primary-dark: #185fc0;
+      --primary-soft: #eaf3ff;
+      --text: #18212f;
+      --subtext: #5f6b7a;
+      --line: #e3e9f2;
+      --shadow: 0 16px 36px rgba(18, 35, 66, 0.08);
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --pill: #edf4ff;
+      --surface: #f8fbff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 26px 18px 40px;
+    }
+
+    .brand {
+      text-align: center;
+      color: #29456b;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(212, 221, 235, 0.6);
+    }
+
+    .hero {
+      padding: 26px 22px;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.45rem);
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--subtext);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .notice {
+      margin: 16px 0 18px;
+      background: linear-gradient(135deg, var(--primary) 0%, #4d97ff 100%);
+      color: white;
+      border-radius: 18px;
+      padding: 18px 20px;
+      line-height: 1.7;
+      box-shadow: 0 14px 28px rgba(31, 118, 232, 0.18);
+    }
+
+    .source-box {
+      display: grid;
+      gap: 10px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+
+    .source-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .source-title {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .source-sub {
+      color: var(--subtext);
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .two-col {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .panel h2, .panel h3 {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-head span {
+      color: var(--subtext);
+      font-size: 0.92rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid #ecf1f8;
+      border-radius: 16px;
+      padding: 14px 12px;
+    }
+
+    .stat-num {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      color: var(--subtext);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid #ecf1f8;
+      margin-bottom: 12px;
+    }
+
+    .option-title {
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .option-desc {
+      color: var(--subtext);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .switch {
+      position: relative;
+      width: 54px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .switch input { display: none; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #d6deea;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transition: 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--primary);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(22px);
+    }
+
+    .muted {
+      color: var(--subtext);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .inline-option {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .field-box {
+      flex: 1 1 180px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--subtext);
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+    
+    .number-input {
+      width: 100%;
+      border: 1px solid #d7e2f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: white;
+      color: var(--text);
+      font-size: 0.98rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .number-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(31, 118, 232, 0.08);
+    }
+
+    .set-total-count {
+      margin-left: 8px;
+      color: var(--subtext);
+      font-size: 0.62em;
+      font-weight: 600;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .category-row {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .category-btn {
+      flex: 1;
+      width: auto;
+      border: 0;
+      cursor: pointer;
+      text-align: left;
+      padding: 8px 14px;
+      border-radius: 16px;
+      background: #f7faff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .category-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(31, 118, 232, 0.10);
+      background: #f0f6ff;
+    }
+
+    .category-btn.last-opened {
+      background: #eef5ff;
+      box-shadow: inset 0 0 0 1.5px #b4d0ff;
+    }
+
+    .category-side {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .category-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      min-height: calc(1.35em * 2);
+      display: flex;
+      align-items: center;
+    }
+
+    .category-desc {
+      font-size: 0.9rem;
+      color: var(--subtext);
+      line-height: 1.55;
+      margin-top: 2px;
+    }
+
+    .category-progress {
+      margin-top: 6px;
+    }
+
+    .category-progress-text {
+      font-size: 0.76rem;
+      color: var(--subtext);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .category-progress-text strong {
+      color: var(--primary);
+    }
+
+    .mini-track {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e8eef8;
+      overflow: hidden;
+    }
+
+    .mini-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, #60a5fa 100%);
+    }
+
+    .pass-count-text {
+      font-size: 0.76rem;
+      color: #7c5cd1;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .pass-count-text strong {
+      color: #5b3fc4;
+      font-weight: 900;
+    }
+
+    .badge {
+      flex-shrink: 0;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--pill);
+      color: var(--primary);
+      font-size: 0.62rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .category-side .badge,
+    .category-side .odap-set-btn {
+      width: 92px;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge.warn {
+      background: #fff5df;
+      color: #b97700;
+    }
+
+    .odap-set-btn {
+      border: 1px solid #d7e7ff;
+      background: #ffffff;
+      color: var(--primary-dark);
+      font-size: 0.6rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 3px 8px;
+      min-height: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .odap-set-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(31, 118, 232, 0.12);
+      background: #f5f9ff;
+      border-color: #b8d4ff;
+    }
+
+    .odap-set-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      box-shadow: none;
+    }
+
+    .odap-set-btn.active {
+      background: #eef5ff;
+      border-color: #b4d0ff;
+    }
+
+    .odap-set-btn.last-opened {
+      background: #fff1cf;
+      border-color: #f0b429;
+    }
+
+    /* 오답노트를 풀던 중(완료 전)이면 초록 계열 배경으로 표시해서
+       한눈에 "진행 중"임을 알 수 있게 합니다. last-opened/active보다 뒤에 있어 우선 적용됩니다. */
+    .odap-set-btn.in-progress {
+      background: #e6faf1;
+      border-color: #7fdcb2;
+      color: #0f9d77;
+    }
+
+    .category-btn.in-progress {
+      background: #eafaf3;
+      box-shadow: inset 0 0 0 1.5px #7fdcb2;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .history-item {
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--surface);
+      border: 1px solid #ecf1f8;
+    }
+
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .history-title {
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .history-score {
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    .history-meta {
+      color: var(--subtext);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .danger-btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 800;
+      color: white;
+      background: #e45c5c;
+    }
+
+    .ghost-btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 800;
+      color: #30445e;
+      background: #edf3fb;
+    }
+
+    .quiz-shell { display: none; gap: 16px; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .text-btn {
+      border: 0;
+      background: transparent;
+      color: var(--primary);
+      font-weight: 900;
+      cursor: pointer;
+      padding: 8px 4px;
+    }
+
+    .status-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 0.88rem;
+    }
+
+    .status-pill.alt {
+      background: #fff5df;
+      color: #b97700;
+    }
+
+    .status-pill.wrong-note-badge {
+      background: rgb(84, 171, 238);
+      color: #ffffff;
+    }
+
+    .progress-card, .question-card, .result-card, .complete-card { padding: 18px; }
+
+    .progress-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .progress-title {
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .progress-text {
+      color: var(--subtext);
+      font-size: 0.92rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e8eef8;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, #60a5fa 100%);
+      transition: width 0.25s ease;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+
+    .question-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f7faff;
+      color: var(--primary);
+      font-size: 0.87rem;
+      font-weight: 800;
+      border: 2px solid transparent;
+      transition: border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .question-chip.chip-correct {
+      border-color: #39ff14;
+      box-shadow: 0 0 6px 1px rgba(57, 255, 20, 0.55);
+    }
+
+    .question-chip.chip-wrong {
+      border-color: #ff073a;
+      box-shadow: 0 0 6px 1px rgba(255, 7, 58, 0.55);
+    }
+
+    
+    .meta-right {display:flex;align-items:center;gap:8px;}
+    .mini-nav-btn{
+      height:28px;
+      padding:1px 15px 1px;
+      border:1px solid #cfd8dc;
+      border-radius:6px;
+      background:#d5d4d500;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:700;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .mini-nav-btn:hover{
+        background:#f3f6f9;
+    }
+
+    .mini-nav-btn:disabled{
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: #d5d4d500;
+    }
+
+    .mini-nav-btn-sq{
+      padding:1px 4px;
+      font-size:11px;
+      letter-spacing:-0.5px;
+      min-width:28px;
+    }
+
+    .speed-btn {
+      color: #e02424;
+      font-weight: 800;
+    }
+
+    .speed-btn.active {
+      background: #e02424;
+      border-color: #e02424;
+      color: #fff;
+      box-shadow: 0 0 6px 1px rgba(224, 36, 36, 0.55);
+    }
+
+    .speed-btn.active:hover {
+      background: #c71d1d;
+    }
+
+    .bookmark-btn.active {
+      background: #e45c5c;
+      border-color: #e45c5c;
+      color: #fff;
+    }
+
+    .bookmark-btn.active:hover {
+      background: #d24f4f;
+    }
+
+    .difficulty {
+      color: #8b97a8;
+      font-size: 0.88rem;
+      font-weight: 700;
+      background: transparent;
+      border: 1px solid rgba(139, 151, 168, 0.35);
+      border-radius: 999px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .difficulty:hover {
+      background: rgba(139, 151, 168, 0.12);
+    }
+
+    .difficulty[data-level="기본"] {
+      color: #6b7684;
+      border-color: rgba(107, 118, 132, 0.4);
+    }
+
+    .difficulty[data-level="보통"] {
+      color: #d68a1f;
+      border-color: rgba(214, 138, 31, 0.5);
+      background: rgba(214, 138, 31, 0.08);
+    }
+
+    .difficulty[data-level="심화"] {
+      color: #e02424;
+      border-color: rgba(224, 36, 36, 0.5);
+      background: rgba(224, 36, 36, 0.08);
+    }
+
+    .question-text {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.85;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      word-wrap: break-word;
+    }
+
+    /* ===== 문제 텍스트 서식 렌더링 ===== */
+    .question-text b,
+    .question-text strong {
+      font-weight: 900;
+      color: inherit;
+    }
+
+    .question-text u {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      text-decoration-color: currentColor;
+    }
+
+    .question-text span[style*="color"] {
+      font-weight: inherit;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .answer-btn {
+      border: 0;
+      padding: 18px 16px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.16s ease, filter 0.16s ease, opacity 0.16s ease;
+    }
+
+    .answer-btn:hover { transform: translateY(-2px); filter: brightness(1.02); }
+    .answer-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .btn-o { background: linear-gradient(135deg, #15b88b 0%, #0f9d77 100%); }
+    .btn-x { background: linear-gradient(135deg, #ff7676 0%, #e45757 100%); }
+
+    .question-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .question-nav .secondary-btn {
+      flex: 1 1 180px;
+    }
+
+    .question-hint {
+      margin: 12px 2px 0;
+      color: var(--subtext);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .result-card {
+      display: none;
+      border: 1px solid var(--line);
+    }
+
+    .result-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    .result-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+    }
+
+    .correct .result-icon { background: var(--success); }
+    .wrong .result-icon { background: var(--error); }
+    .correct .result-head { color: var(--success); }
+    .wrong .result-head { color: var(--error); }
+
+    .qa-block {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .qa-item {
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: #f8fbff;
+      border: 1px solid #ebf1f8;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* 해설 부분: 항상 이 색상으로 고정 (요청하신 색상) */
+    .qa-item.qa-explanation {
+      background: rgb(230, 244, 254);
+      border: 1px solid #bad7f2;
+    }
+
+    /* 오답노트 저장 표시는 배경색이 아닌 배지로만 표시 (아래 wrongNoteBadge) */
+
+    .qa-label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--subtext);
+      margin-bottom: 6px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .qa-value {
+      font-size: 0.98rem;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      word-wrap: break-word;
+    }
+
+    /* ===== 서식 렌더링 스타일 ===== */
+    .qa-value b,
+    .qa-value strong {
+      font-weight: 900;
+      color: inherit;
+    }
+
+    .qa-value u {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      text-decoration-color: currentColor;
+    }
+
+    .qa-value span[style*="color"] {
+      font-weight: inherit;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn, .secondary-btn, .third-btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-weight: 800;
+      font-size: 0.98rem;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 10px 18px rgba(31, 118, 232, 0.16);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .secondary-btn {
+      background: #edf3fb;
+      color: #30445e;
+    }
+
+    .secondary-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .third-btn {
+      background: #edf3fb;
+      color: #30445e;
+    }
+
+    .complete-card {
+      display: none;
+      text-align: center;
+    }
+
+    .complete-emoji {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+    }
+
+    .complete-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.6rem;
+    }
+
+    .score-line {
+      color: var(--subtext);
+      line-height: 1.7;
+      margin: 0 0 20px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+
+    .summary-box {
+      padding: 14px 10px;
+      border-radius: 16px;
+      background: #f7faff;
+      border: 1px solid #edf2f8;
+    }
+
+    .summary-num {
+      font-size: 1.28rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .summary-label {
+      color: var(--subtext);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 20px;
+      color: #8190a5;
+      font-size: 0.86rem;
+      line-height: 1.7;
+    }
+
+    /* ===== 오답노트 표시 스타일 ===== */
+    
+    #toast-container {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+    }
+
+    .toast {
+      font-size: 0.9rem;
+      font-weight: 800;
+      background-color: #95cbf7;
+      color: hsl(0, 0%, 100%);
+      padding: 3px 5px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 820px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 18px 14px 28px; }
+      .hero, .source-box, .panel, .progress-card, .question-card, .result-card, .complete-card { padding: 16px; }
+      .answer-grid, .summary-grid, .stats-grid { grid-template-columns: 1fr; }
+      .question-text { font-size: 1.03rem; }
+      .category-btn { padding: 6px 14px; gap: 10px; }
+      .category-title { font-size: 0.96rem; }
+      .category-side { flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+      .badge, .odap-set-btn { text-align: center; padding: 4px 10px; font-size: 0.74rem; min-height: 0; }
+      .category-side .badge, .category-side .odap-set-btn { width: 84px; display: flex; align-items: center; justify-content: center; }
+      .question-meta { gap: 6px; }
+      .difficulty { font-size: 0.74rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="brand" id="brandLabel">CIVIL LAW OX PRACTICE</div>
+
+    <section id="homeView">
+      <div class="hero card" id="heroCard">
+        <div class="eyebrow" id="eyebrowLabel">2027년 변리사 1차 대비</div>
+        <h1 id="headingLabel">민법 OX 문제</h1>
+        <p class="subtitle" id="subtitleLabel">합격의 법학원 고태환 강사 자료</p>
+      </div>
+
+
+      <div class="panel card" id="bookmarkResumeCard" style="display:none;">
+        <div class="section-head">
+          <h3>이어풀기</h3>
+          <span>저장해둔 문제부터 다시 시작</span>
+        </div>
+        <div class="history-item">
+          <div class="history-top">
+            <div class="history-title" id="bookmarkResumeTitle"></div>
+          </div>
+          <div class="history-meta" id="bookmarkResumeMeta"></div>
+          <div class="result-actions" style="margin-top:10px;">
+            <button class="primary-btn" id="bookmarkResumeBtn">이어서 풀기</button>
+            <button class="ghost-btn" id="bookmarkClearBtn">저장 취소</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid two-col">
+        <div class="panel card">
+          <div class="section-head">
+            <h2>문제 세트<span id="setTotalCountText" class="set-total-count"></span></h2>
+          </div>
+          <div id="categoryList" class="category-list"></div>
+        </div>
+
+        <div class="grid">
+          <div class="panel card">
+            <h3>학습 옵션</h3>
+            <div class="option-row">
+              <div>
+                <div class="option-title">랜덤 출제</div>
+                <div class="option-desc">문제를 시작할 때마다 순서를 섞어서 출제합니다.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="randomToggle" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="option-row">
+              <div>
+                <div class="option-title">오답노트 자동정리</div>
+                <div class="option-desc">오답노트에서 맞춘 문제는 자동으로 지워집니다.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="odapToggle" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="option-row" style="display:block;">
+              <div>
+                <div class="option-title">전체 랜덤 테스트</div>
+                <div class="option-desc">전체 문제 중 원하는 문제 수만큼 무작위로 뽑아 미니 테스트를 시작합니다.</div>
+              </div>
+              <div class="inline-option">
+                <div class="field-box">
+                  <label class="field-label" for="questionCountInput">출제 문제 수</label>
+                  <input class="number-input" type="number" id="questionCountInput" min="1" step="1" />
+                </div>
+                <button class="primary-btn" id="startRandomSubsetBtn" style="padding:12px 16px;">전체 랜덤 시작</button>
+              </div>
+            </div>
+            <div class="option-row" style="display:block;">
+              <div>
+                <div class="option-title">오답노트 랜덤 테스트</div>
+                <div class="option-desc">오답노트 중 원하는 문제 수만큼 무작위로 뽑아 미니 테스트를 시작합니다.</div>
+              </div>
+              <div class="inline-option">
+                <div class="field-box">
+                  <label class="field-label" for="wrongRandomCountInput">출제 문제 수</label>
+                  <input class="number-input" type="number" id="wrongRandomCountInput" min="1" step="1" />
+                </div>
+                <button class="primary-btn" id="startWrongRandomBtn" style="padding:12px 16px;">오답노트 랜덤 시작</button>
+              </div>
+            </div>
+            <p class="muted">옵션과 기록은 현재 브라우저에 저장됩니다. 같은 기기에서 다시 열면 이전 결과를 이어서 확인할 수 있습니다.</p>
+          </div>
+
+          <div class="panel card">
+            <div class="section-head">
+              <h3>저장된 성적</h3>
+              <span id="historyLabel">최근 학습 요약</span>
+            </div>
+            <div class="stats-grid" style="margin-bottom:12px;">
+              <div class="stat-box">
+                <div class="stat-num" id="attemptCount">0</div>
+                <div class="stat-label">총 시도</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="bestScore">0%</div>
+                <div class="stat-label">최고 점수</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="wrongCount">0</div>
+                <div class="stat-label">오답노트</div>
+              </div>
+            </div>
+            <div id="historyList" class="history-list"></div>
+          </div>
+
+          <div class="panel card">
+            <div class="section-head">
+              <h3>기록 관리</h3>
+              <span>초기화 가능</span>
+            </div>
+            <div class="result-actions" style="margin-top:0;">
+              <button class="ghost-btn" id="clearWrongBtn">오답노트 비우기</button>
+              <button class="danger-btn" id="resetAllBtn">전체 기록 삭제</button>
+            </div>
+            <div class="result-actions" style="margin-top:10px;">
+              <button class="ghost-btn" id="exportDataBtn">데이터 내보내기(백업)</button>
+              <button class="ghost-btn" id="importDataBtn">데이터 가져오기</button>
+              <input type="file" id="importFileInput" accept="application/json,.json" style="display:none;" />
+            </div>
+            <p class="muted" style="margin-top:10px;">문제·오답노트·기록을 JSON 파일 하나로 내보내 백업하거나, 다른 기기·브라우저로 옮길 때 가져오기로 불러올 수 있습니다.</p>
+            <p class="muted" id="importedFileLabel" style="margin-top:6px; display:none;"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quizView" class="quiz-shell">
+      <div class="topbar">
+        <button class="text-btn" id="backBtn">← 홈으로</button>
+        <div class="status-wrap">
+          <div class="status-pill" id="categoryPill">문제 세트</div>
+          <div class="status-pill alt" id="modePill">기본 모드</div>
+        </div>
+      </div>
+
+      <div class="progress-card card">
+        <div class="progress-row">
+          <div class="progress-title">학습 진행도</div>
+          <div class="progress-text" id="progressText">1 / 1</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="question-card card">
+        <div class="question-meta">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div class="question-chip" id="questionIndexChip" style="cursor:pointer;" title="누르면 다음 문제로 이동합니다">문제 1</div>
+
+            <button class="mini-nav-btn" id="prevQuestionBtn">◀</button>
+            <button class="mini-nav-btn" id="skipBtn">▶</button>
+            <button class="mini-nav-btn mini-nav-btn-sq" id="firstQuestionBtn">맨첨</button>
+            <button class="mini-nav-btn mini-nav-btn-sq" id="lastQuestionBtn">맨끝</button>
+            <button class="mini-nav-btn mini-nav-btn-sq speed-btn" id="speedBtn">스핏</button>
+            <button class="mini-nav-btn mini-nav-btn-sq" id="unansweredBtn">안푼</button>
+          </div>
+
+          <div class="meta-right">
+            <button type="button" class="difficulty" id="difficultyText" title="누르면 난이도가 바뀝니다">
+              출처: STEP ② OX 퀴즈
+            </button>
+          </div>
+        </div>
+        <p class="question-text" id="questionText"></p>
+        <div class="answer-grid">
+          <button class="answer-btn btn-o" id="btnO">O</button>
+          <button class="answer-btn btn-x" id="btnX">X</button>
+        </div>
+      </div>
+
+      <div class="result-card card" id="resultCard">
+        <div class="result-head" id="resultHead">
+          <div class="result-icon" id="resultIcon">✓</div>
+          <span id="resultTitle">정답입니다</span>
+          <span id="wrongNoteBadge" class="status-pill wrong-note-badge" style="display:none; margin-left: auto;">📝 오답노트</span>
+        </div>
+        <div class="qa-block">
+          <div class="qa-item">
+            <span class="qa-label">정답</span>
+            <div class="qa-value" id="answerText"></div>
+          </div>
+          <div class="qa-item qa-explanation">
+            <span class="qa-label">해설</span>
+            <div class="qa-value" id="explanationText"></div>
+          </div>
+        </div>
+        <div class="result-actions">
+          <button class="primary-btn" id="nextBtn">다음 문제</button>  
+          <button class="secondary-btn" id="retryBtn">현재 세트 다시 풀기</button>          
+          <button class="third-btn" id="toodapBtn">오답노트 저장</button>
+          <div id="toast-container"></div>    
+        </div>
+      </div>
+
+      <div class="complete-card card" id="completeCard">
+        <div class="complete-emoji">🎉</div>
+        <h3>모든 문제를 완료했습니다!</h3>
+        <p class="score-line" id="scoreLine">정답률을 확인하고 다시 풀어보세요.</p>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <div class="summary-num" id="totalNum">0</div>
+            <div class="summary-label">총 문제</div>
+          </div>
+          <div class="summary-box">
+            <div class="summary-num" id="correctNum">0</div>
+            <div class="summary-label">정답</div>
+          </div>
+          <div class="summary-box">
+            <div class="summary-num" id="wrongNum">0</div>
+            <div class="summary-label">오답/미응답</div>
+          </div>
+          <div class="summary-box">
+            <div class="summary-num" id="accuracyNum">0%</div>
+            <div class="summary-label">정답률</div>
+          </div>
+        </div>
+
+        <div class="result-actions" style="justify-content:center;">
+          <button class="primary-btn" id="restartBtn">이 세트 다시 풀기</button>
+          <button class="secondary-btn" id="goWrongNoteBtn">오답노트 다시 풀기</button>
+          <button class="secondary-btn" id="goHomeBtn">홈으로 돌아가기</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+
+    const STORAGE_KEYS = {
+      history: 'civil_ox_history_v2',
+      wrongNotes: 'civil_ox_wrong_notes_v2',
+      random: 'civil_ox_random_mode_v2',
+      randomCount: 'civil_ox_random_count_v2',
+      odap: 'civil_ox_odap_v2',
+      bookmark: 'civil_ox_bookmark_v2',
+      lastSet: 'civil_ox_last_set_v2',
+      lastWrongSet: 'civil_ox_last_wrong_set_v2',
+      quizData: 'civil_ox_quiz_data_v2',
+      siteConfig: 'civil_ox_site_config_v2',
+      lastImportedFile: 'civil_ox_last_imported_file_v2',
+      setProgress: 'civil_ox_set_progress_v2',
+      passCounts: 'civil_ox_pass_counts_v2'
+    };
+
+    // 창(탭)마다 완전히 독립된 저장공간을 쓰도록 sessionStorage를 사용합니다.
+    // sessionStorage는 브라우저 탭 단위로 격리되어 있어, 다른 창에서 무엇을 하든
+    // (데이터 가져오기 포함) 이 창의 데이터에는 전혀 영향을 주지 않습니다.
+    // 단, 이전 버전(localStorage 사용)에 저장돼 있던 데이터가 있다면, 이 탭이 처음
+    // 열릴 때 한 번만 복사해 와서 기존 기록이 사라지지 않도록 합니다.
+    (function migrateLegacyLocalStorage() {
+      Object.values(STORAGE_KEYS).forEach((key) => {
+        if (sessionStorage.getItem(key) === null) {
+          const legacyValue = localStorage.getItem(key);
+          if (legacyValue !== null) {
+            sessionStorage.setItem(key, legacyValue);
+          }
+        }
+      });
+    })();
+
+    // 문제/세트에 id가 없으면(수기로 만든 quiz-data.json 등) 오답노트·즐겨찾기가
+    // 서로 다른 문제끼리 뒤섞이는 문제가 생긴다. 그래서 불러온 직후 항상 안정적인
+    // id를 채워 넣는다. 이미 id가 있으면 그대로 두고, 없을 때만 세트/순서 기반으로
+    // 만들어 붙인다 (같은 데이터를 다시 불러와도 항상 같은 id가 나오도록).
+    function ensureQuizDataIds(sets) {
+      if (!Array.isArray(sets)) return sets;
+      sets.forEach((set, setIndex) => {
+        if (!set.id) set.id = `set-${setIndex}`;
+        if (!Array.isArray(set.questions)) return;
+        set.questions.forEach((q, qIndex) => {
+          if (!q.id) q.id = `${set.id}-q${qIndex}`;
+        });
+      });
+      return sets;
+    }
+
+    // 문제 데이터는 이 HTML 파일 안에 직접 들어있지 않습니다.
+    // 홈 화면의 "데이터 가져오기" 버튼으로 'quiz-data.json' 파일을 선택해 불러옵니다.
+    // (자동 불러오기는 file://로 열었을 때 브라우저 보안 정책 때문에 오류만 나서 제거했습니다.)
+    //
+    // 모바일 브라우저는 다른 앱을 켰다 오거나 화면을 껐다 켤 때 메모리 확보를 위해
+    // 페이지를 자동으로 새로고침하는 경우가 많습니다. quizSets가 메모리에만 있으면
+    // 이때마다 문제 데이터가 사라져 홈 화면이 텅 빈 것처럼("페이지가 사라짐") 보이므로,
+    // 한 번 불러온 데이터는 세션 저장소에도 저장해 두었다가 새로고침 시 복원합니다.
+    let quizSets = ensureQuizDataIds(loadJSON(STORAGE_KEYS.quizData, []));
+
+    function saveQuizData() {
+      ensureQuizDataIds(quizSets);
+      saveJSON(STORAGE_KEYS.quizData, quizSets);
+    }
+
+    function applySiteConfig(config, persist = true) {
+      if (!config || typeof config !== 'object') return;
+      if (config.pageTitle) document.title = config.pageTitle;
+      if (config.brand) document.getElementById('brandLabel').textContent = config.brand;
+      if (config.eyebrow) document.getElementById('eyebrowLabel').textContent = config.eyebrow;
+      if (config.heading) document.getElementById('headingLabel').textContent = config.heading;
+      if (config.subtitle) document.getElementById('subtitleLabel').textContent = config.subtitle;
+      if (persist) saveJSON(STORAGE_KEYS.siteConfig, config);
+    }
+    const homeView = document.getElementById('homeView');
+    const brandLabelEl = document.getElementById('brandLabel');
+    const heroCard = document.getElementById('heroCard');
+    const quizView = document.getElementById('quizView');
+    const categoryList = document.getElementById('categoryList');
+    const randomToggle = document.getElementById('randomToggle');
+    const odapToggle = document.getElementById('odapToggle');
+    const questionCountInput = document.getElementById('questionCountInput');
+    const setTotalCountText = document.getElementById('setTotalCountText');
+    const startRandomSubsetBtn = document.getElementById('startRandomSubsetBtn');
+    const wrongRandomCountInput = document.getElementById('wrongRandomCountInput');
+    const startWrongRandomBtn = document.getElementById('startWrongRandomBtn');
+    const historyLabel = document.getElementById('historyLabel');
+    const attemptCount = document.getElementById('attemptCount');
+    const bestScore = document.getElementById('bestScore');
+    const wrongCount = document.getElementById('wrongCount');
+    const historyList = document.getElementById('historyList');
+    const clearWrongBtn = document.getElementById('clearWrongBtn');
+    const resetAllBtn = document.getElementById('resetAllBtn');
+    const exportDataBtn = document.getElementById('exportDataBtn');
+    const importDataBtn = document.getElementById('importDataBtn');
+    const importFileInput = document.getElementById('importFileInput');
+    const importedFileLabel = document.getElementById('importedFileLabel');
+
+    const categoryPill = document.getElementById('categoryPill');
+    const modePill = document.getElementById('modePill');
+    const progressText = document.getElementById('progressText');
+    const progressFill = document.getElementById('progressFill');
+    const questionIndexChip = document.getElementById('questionIndexChip');
+    const difficultyText = document.getElementById('difficultyText');
+    const questionText = document.getElementById('questionText');
+
+    // 편집기에서 추가한 <u>밑줄</u>, <b>볼드체</b>, <span style="color:...">색상</span>
+    // 표시만 안전하게 허용해서 렌더링합니다. 그 외 태그/속성은 전부 제거됩니다.
+    //
+    // 예전에는 정규식으로 문자열을 직접 치환하는 방식이었는데, 그 방식은
+    //   - <B>, <U>처럼 대문자로 된 태그를 인식하지 못하고,
+    //   - style="font-weight:bold; color:red;"처럼 color가 맨 앞에 오지 않는
+    //     경우(볼드+색상을 함께 칠하면 브라우저가 흔히 이렇게 만듭니다) 태그
+    //     전체가 삭제되어 서식이 통째로 사라지고,
+    //   - style='color:red'처럼 작은따옴표를 쓰면 인식하지 못하는
+    // 등의 버그가 있었습니다. 아래 방식은 브라우저의 실제 HTML 파서로 태그를
+    // 해석하기 때문에 태그의 대소문자, 속성 순서, 따옴표 종류에 관계없이
+    // 정확히 인식되고, 허용되지 않은 태그/속성(예: onclick 같은 스크립트)은
+    // 안전하게 제거됩니다.
+    function renderRichText(el, str) {
+      const raw = str == null ? '' : String(str);
+      const normalized = raw
+        .replace(/\r\n/g, '\n')   // 윈도우식 줄바꿈(\r\n) 정리
+        .replace(/\r/g, '\n')     // 남은 \r만 있는 경우도 정리
+        .replace(/\\n/g, '\n');   // JSON을 이중 이스케이프해서 실제 줄바꿈이 아니라
+                                   // 문자 그대로 "\n" 두 글자로 저장된 경우 복구
+
+      // <template>은 내용이 렌더링/실행되지 않는 비활성 DOM이라
+      // innerHTML로 채워도 스크립트가 실행되거나 이미지가 로드되지 않아 안전합니다.
+      const tpl = document.createElement('template');
+      tpl.innerHTML = normalized;
+
+      // 허용 목록(b, u, span[color], br, div, p)만 새 DOM으로 다시 만들고
+      // 그 외 태그는 내용만 남기고 벗겨내며(unwrap), 속성도 색상값만 복사합니다.
+      function sanitize(node) {
+        const frag = document.createDocumentFragment();
+        node.childNodes.forEach(child => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            frag.appendChild(document.createTextNode(child.textContent));
+            return;
+          }
+          if (child.nodeType !== Node.ELEMENT_NODE) return;
+          const tag = child.tagName.toLowerCase();
+          if (tag === 'b' || tag === 'strong') {
+            const wrap = document.createElement('b');
+            wrap.appendChild(sanitize(child));
+            frag.appendChild(wrap);
+          } else if (tag === 'u') {
+            const wrap = document.createElement('u');
+            wrap.appendChild(sanitize(child));
+            frag.appendChild(wrap);
+          } else if (tag === 'span') {
+            const color = child.style && child.style.color;
+            if (color) {
+              const wrap = document.createElement('span');
+              wrap.style.color = color;
+              wrap.appendChild(sanitize(child));
+              frag.appendChild(wrap);
+            } else {
+              frag.appendChild(sanitize(child));
+            }
+          } else if (tag === 'br') {
+            frag.appendChild(document.createElement('br'));
+          } else if (tag === 'div' || tag === 'p') {
+            // contenteditable에서 Enter를 치면 줄마다 <div>로 감싸는 경우가
+            // 많으므로 줄바꿈(<br>)으로 취급합니다.
+            if (frag.lastChild) frag.appendChild(document.createElement('br'));
+            frag.appendChild(sanitize(child));
+          } else {
+            // 화이트리스트에 없는 태그(font-family/size 등 붙여넣기로 딸려온
+            // 서식, 혹은 script/onclick 같은 위험한 태그)는 태그만 벗겨내고
+            // 내부 텍스트/허용된 서식은 그대로 유지합니다.
+            frag.appendChild(sanitize(child));
+          }
+        });
+        return frag;
+      }
+
+      el.innerHTML = '';
+      el.appendChild(sanitize(tpl.content));
+
+      // 맨 앞에 생길 수 있는 불필요한 <br> 제거
+      while (el.firstChild && el.firstChild.nodeName === 'BR') {
+        el.removeChild(el.firstChild);
+      }
+    }
+
+    // 이어풀기 카드처럼 innerHTML이 아니라 textContent로 짧게 미리보기만 보여줘야 하는 곳에서
+    // 쓰는 함수입니다. renderRichText와 달리 <u>/<b>/<span> 같은 서식도 전부 제거하고
+    // 순수 텍스트만 남겨서, "<span style=...>" 같은 태그 글자가 그대로 노출되지 않게 합니다.
+    function stripToPlainText(str) {
+      const raw = str == null ? '' : String(str);
+      return raw
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n')
+        .replace(/\\n/g, '\n')
+        .replace(/<div[^>]*>/gi, ' ')
+        .replace(/<\/div>/gi, '')
+        .replace(/<br[^>]*>/gi, ' ')
+        .replace(/<[^>]+>/g, '')       // 남은 모든 HTML 태그(span, font 등) 제거
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+    const btnO = document.getElementById('btnO');
+    const btnX = document.getElementById('btnX');
+    const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const bookmarkResumeCard = document.getElementById('bookmarkResumeCard');
+    const bookmarkResumeTitle = document.getElementById('bookmarkResumeTitle');
+    const bookmarkResumeMeta = document.getElementById('bookmarkResumeMeta');
+    const bookmarkResumeBtn = document.getElementById('bookmarkResumeBtn');
+    const bookmarkClearBtn = document.getElementById('bookmarkClearBtn');
+    const resultCard = document.getElementById('resultCard');
+    const resultHead = document.getElementById('resultHead');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultTitle = document.getElementById('resultTitle');
+    const answerText = document.getElementById('answerText');
+    const explanationText = document.getElementById('explanationText');
+    const sourceText = document.getElementById('sourceText');
+    const nextBtn = document.getElementById('nextBtn');
+    const firstQuestionBtn = document.getElementById('firstQuestionBtn');
+    const lastQuestionBtn = document.getElementById('lastQuestionBtn');
+    const speedBtn = document.getElementById('speedBtn');
+    const unansweredBtn = document.getElementById('unansweredBtn');
+    let speedMode = false;
+    const retryBtn = document.getElementById('retryBtn');
+    const toodapBtn = document.getElementById('toodapBtn');
+    const completeCard = document.getElementById('completeCard');
+    const scoreLine = document.getElementById('scoreLine');
+    const totalNum = document.getElementById('totalNum');
+    const correctNum = document.getElementById('correctNum');
+    const wrongNum = document.getElementById('wrongNum');
+    const accuracyNum = document.getElementById('accuracyNum');
+    const backBtn = document.getElementById('backBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const goWrongNoteBtn = document.getElementById('goWrongNoteBtn');
+    const goHomeBtn = document.getElementById('goHomeBtn');
+        
+    let currentSet = null;
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let correctCountValue = 0;
+    let answered = false;
+    let currentMode = 'normal';
+    let currentSessionWrong = [];
+    let currentRequestedCount = null;
+    let currentResponses = [];
+    let autosavePaused = false; // 문제 풀이 중 이어풀기 자동 저장을 일시적으로 끈 상태인지 여부
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerText = message;  
+      container.appendChild(toast);
+      setTimeout(() => {toast.classList.add('show');}, 100);  
+      setTimeout(() => {toast.classList.remove('show');
+      setTimeout(() => {container.removeChild(toast);}, 500);}, 1000);
+    }
+
+    function loadJSON(key, fallback) {
+      try {
+        const value = sessionStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function saveJSON(key, value) {
+      sessionStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getHistory() {
+      return loadJSON(STORAGE_KEYS.history, []);
+    }
+
+    function setHistory(list) {
+      saveJSON(STORAGE_KEYS.history, list);
+    }
+
+    function normalizeWrongNoteItems(list = []) {
+      const questionMap = new Map(getAllQuestions().map(item => [item.id, item]));
+      return uniqueById((Array.isArray(list) ? list : []).map(item => {
+        const matched = questionMap.get(item.id);
+        if (!matched) return item;
+        return {
+          ...matched,
+          ...item,
+          setId: item.setId || matched.setId,
+          setTitle: item.setTitle || matched.setTitle
+        };
+      }));
+    }
+
+    function getWrongNotes() {
+      return normalizeWrongNoteItems(loadJSON(STORAGE_KEYS.wrongNotes, []));
+    }
+
+    function setWrongNotes(list) {
+      saveJSON(STORAGE_KEYS.wrongNotes, normalizeWrongNoteItems(list));
+    }
+
+    function getBookmark() {
+      return loadJSON(STORAGE_KEYS.bookmark, null);
+    }
+
+    function setBookmark(question) {
+      const bm = {
+        mode: currentMode,
+        setId: question.setId,
+        questionId: question.id,
+        questionText: question.text,
+        savedAt: new Date().toISOString()
+      };
+      if (currentMode === 'wrong') {
+        bm.wrongScopeSetId = (currentSet && currentSet.id === 'wrong-note-set') ? null : question.setId;
+        bm.setTitle = currentSet ? currentSet.title : `${question.setTitle} 오답노트`;
+        if (currentRequestedCount) bm.requestedCount = currentRequestedCount;
+      } else if (currentMode === 'all-random') {
+        bm.requestedCount = currentRequestedCount;
+        bm.setTitle = currentSet ? currentSet.title : '전체 랜덤 테스트';
+      } else {
+        bm.setTitle = question.setTitle;
+      }
+      saveJSON(STORAGE_KEYS.bookmark, bm);
+    }
+
+    function clearBookmark() {
+      sessionStorage.removeItem(STORAGE_KEYS.bookmark);
+    }
+
+    // ===== 세트/오답노트별 학습진행도 =====
+    // 세트(또는 오답노트)마다 "어떤 문제를 풀었고 맞았는지, 마지막으로 보던 문제가 무엇인지"를
+    // 별도로 기억해 둡니다. key는 currentSet.id를 그대로 사용합니다.
+    // (일반 세트 = set.id, 세트별 오답노트 = 'wrong-note-set-{id}', 전체 오답노트 = 'wrong-note-set')
+    // 전체/오답 랜덤 테스트(all-random, 랜덤 문제수 지정한 wrong)는 매번 문제 구성이 달라지므로
+    // 진행도를 기록하지 않습니다.
+    function getSetProgressMap() {
+      return loadJSON(STORAGE_KEYS.setProgress, {});
+    }
+
+    function saveSetProgressMap(map) {
+      saveJSON(STORAGE_KEYS.setProgress, map);
+    }
+
+    function getSetProgress(setKey) {
+      return getSetProgressMap()[setKey] || null;
+    }
+
+    function isProgressTrackedMode() {
+      return currentMode === 'normal' || (currentMode === 'wrong' && !currentRequestedCount);
+    }
+
+    function recordSetProgress(question, response) {
+      if (!currentSet || !isProgressTrackedMode()) return;
+      const map = getSetProgressMap();
+      const prev = map[currentSet.id] || { answers: {} };
+      const answers = { ...(prev.answers || {}) };
+      answers[question.id] = { choice: response.choice, isCorrect: response.isCorrect };
+      map[currentSet.id] = {
+        title: currentSet.title,
+        totalQuestions: currentQuestions.length,
+        answers,
+        lastQuestionId: question.id,
+        updatedAt: new Date().toISOString()
+      };
+      saveSetProgressMap(map);
+    }
+
+    function clearSetProgress(setKey) {
+      const map = getSetProgressMap();
+      if (map[setKey]) {
+        delete map[setKey];
+        saveSetProgressMap(map);
+      }
+    }
+
+    // 세트 카드를 클릭해 문제를 시작한 직후, 저장된 진행도가 있으면
+    // 이미 답한 문제들의 결과를 복원하고 마지막으로 보던 문제로 이동합니다.
+    function applySetProgressResume(setKey) {
+      const prog = getSetProgress(setKey);
+      if (!prog || !prog.answers) return;
+      let restoredCount = 0;
+      currentQuestions.forEach((q, idx) => {
+        const saved = prog.answers[q.id];
+        if (saved) {
+          currentResponses[idx] = saved;
+          restoredCount += 1;
+        }
+      });
+      if (!restoredCount) return;
+      let targetIndex = currentQuestions.findIndex(q => q.id === prog.lastQuestionId);
+      if (targetIndex < 0 || !currentResponses[targetIndex]) {
+        const firstUnanswered = currentResponses.findIndex(r => !r);
+        targetIndex = firstUnanswered >= 0 ? firstUnanswered : 0;
+      }
+      currentIndex = targetIndex;
+      renderQuestion();
+    }
+
+    function getSetProgressSummary(setKey, totalQuestions) {
+      const prog = getSetProgress(setKey);
+      if (!prog) return { answered: 0, correct: 0, total: totalQuestions };
+      const list = Object.values(prog.answers || {});
+      return {
+        answered: list.length,
+        correct: list.filter(item => item.isCorrect).length,
+        total: totalQuestions
+      };
+    }
+
+    // ===== 회독수(완주 횟수) =====
+    // 세트(또는 오답노트)를 처음부터 끝까지 다 풀고 "결과보기" 화면까지 도달한 횟수를 누적합니다.
+    // setProgress(현재 풀고 있는 위치)와 달리, 완료 후에도 지워지지 않고 계속 쌓입니다.
+    function getPassCountsMap() {
+      return loadJSON(STORAGE_KEYS.passCounts, {});
+    }
+
+    function savePassCountsMap(map) {
+      saveJSON(STORAGE_KEYS.passCounts, map);
+    }
+
+    function getPassCount(setKey) {
+      return getPassCountsMap()[setKey] || 0;
+    }
+
+    function incrementPassCount(setKey) {
+      const map = getPassCountsMap();
+      map[setKey] = (map[setKey] || 0) + 1;
+      savePassCountsMap(map);
+    }
+
+    function getLastSetId() {
+      return sessionStorage.getItem(STORAGE_KEYS.lastSet) || null;
+    }
+
+    function setLastSetId(setId) {
+      sessionStorage.setItem(STORAGE_KEYS.lastSet, setId);
+    }
+
+    function getLastWrongSetId() {
+      return sessionStorage.getItem(STORAGE_KEYS.lastWrongSet) || null;
+    }
+
+    function setLastWrongSetId(setId) {
+      sessionStorage.setItem(STORAGE_KEYS.lastWrongSet, setId);
+    }
+
+    function findBookmarkSet(bm) {
+      if (!bm) return null;
+      const mode = bm.mode || 'normal';
+      if (mode === 'wrong') {
+        const wrongSetData = getWrongNoteSet(bm.wrongScopeSetId || null);
+        return wrongSetData.questions.length ? wrongSetData : null;
+      }
+      if (mode === 'all-random') {
+        const total = getAllQuestions().length;
+        if (!total) return null;
+        return {
+          id: 'all-random-set',
+          title: bm.setTitle || '전체 랜덤 테스트',
+          desc: '',
+          questions: getAllQuestions()
+        };
+      }
+      return quizSets.find(set => set.id === bm.setId) || null;
+    }
+
+    function renderBookmarkResumeCard() {
+      if (!quizSets.length) {
+        bookmarkResumeCard.style.display = 'none';
+        return;
+      }
+      const bm = getBookmark();
+      const set = findBookmarkSet(bm);
+      if (!bm || !set) {
+        bookmarkResumeCard.style.display = 'none';
+        return;
+      }
+      bookmarkResumeCard.style.display = 'block';
+      const modeLabel = bm.mode === 'wrong' ? ' (오답노트 모드)' : bm.mode === 'all-random' ? ' (전체 랜덤 모드)' : '';
+      bookmarkResumeTitle.textContent = `${bm.setTitle || set.title}${modeLabel}`;
+      const plainText = stripToPlainText(bm.questionText);
+      const preview = plainText ? plainText.slice(0, 60) + (plainText.length > 60 ? '...' : '') : '';
+      bookmarkResumeMeta.textContent = preview
+        ? `저장된 문제: ${preview} (${formatDate(bm.savedAt)})`
+        : `저장된 시각: ${formatDate(bm.savedAt)}`;
+    }
+
+    function resumeFromBookmark() {
+      const bm = getBookmark();
+      const set = findBookmarkSet(bm);
+      if (!bm || !set) {
+        showToast('저장된 이어풀기 문제를 찾을 수 없습니다');
+        renderBookmarkResumeCard();
+        return;
+      }
+      const mode = bm.mode || 'normal';
+      startQuiz(set, mode, (mode === 'all-random' || mode === 'wrong') ? bm.requestedCount : null);
+      applySetProgressResume(set.id); // 이전에 답했던 문제 결과도 함께 복원
+      const foundIndex = currentQuestions.findIndex(q => q.id === bm.questionId);
+      if (foundIndex >= 0) {
+        currentIndex = foundIndex;
+        renderQuestion();
+      } else {
+        showToast('저장된 문제를 현재 세트에서 찾지 못해 처음부터 시작합니다');
+      }
+    }
+
+    function formatDate(date) {
+      const d = new Date(date);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mi = String(d.getMinutes()).padStart(2, '0');
+      return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function uniqueById(items) {
+      const map = new Map();
+      items.forEach(item => map.set(item.id, item));
+      return Array.from(map.values());
+    }
+
+    function getRandomEnabled() {
+      return sessionStorage.getItem(STORAGE_KEYS.random) === 'true';
+    }
+
+    function getOdapEnabled() {
+      return sessionStorage.getItem(STORAGE_KEYS.odap) === 'true';
+    }
+
+    function setRandomEnabled(value) {
+      sessionStorage.setItem(STORAGE_KEYS.random, String(value));
+    }
+
+    function setOdapEnabled(value) {
+      sessionStorage.setItem(STORAGE_KEYS.odap, String(value));
+    }
+
+    function getQuestionsWithMeta(set) {
+      return set.questions.map(question => ({
+        ...question,
+        setId: question.setId || set.id,
+        setTitle: question.setTitle || set.title
+      }));
+    }
+
+    function getAllQuestions() {
+      return quizSets.flatMap(set => getQuestionsWithMeta(set));
+    }
+
+    function getStoredQuestionCount() {
+      const total = getAllQuestions().length;
+      const saved = Number(sessionStorage.getItem(STORAGE_KEYS.randomCount));
+      if (!saved || saved < 1) return total;
+      return Math.min(saved, total);
+    }
+
+    function setStoredQuestionCount(value) {
+      sessionStorage.setItem(STORAGE_KEYS.randomCount, String(value));
+    }
+
+    function getWrongNoteSet(setId = null) {
+      const targetSet = setId ? quizSets.find(item => item.id === setId) : null;
+      const wrongItems = getWrongNotes().filter(item => !setId || item.setId === setId);
+      return {
+        id: setId ? `wrong-note-set-${setId}` : 'wrong-note-set',
+        title: targetSet ? `${targetSet.title} 오답노트` : '오답노트',
+        desc: targetSet ? '이 세트에서 틀린 문제만 다시 복습' : '이전에 틀린 문제만 다시 복습',
+        questions: uniqueById(wrongItems)
+      };
+    }
+
+    function renderHome() {
+      brandLabelEl.style.display = quizSets.length ? 'block' : 'none';
+      heroCard.style.display = quizSets.length ? 'block' : 'none';
+      const wrongItems = quizSets.length ? getWrongNotes() : [];
+      const wrongSet = getWrongNoteSet();
+      const totalQuestions = getAllQuestions().length;
+      renderBookmarkResumeCard();
+      questionCountInput.max = totalQuestions;
+      questionCountInput.value = getStoredQuestionCount();
+      const wrongTotalForRandom = wrongItems.length;
+      wrongRandomCountInput.max = wrongTotalForRandom || 1;
+      const wrongPct = totalQuestions ? Math.round((wrongTotalForRandom / totalQuestions) * 100) : 0;
+      setTotalCountText.textContent = `[전체 ${totalQuestions}문제/오답노트 ${wrongTotalForRandom}문제(${wrongPct}%)]`;
+      if (!wrongTotalForRandom || Number(wrongRandomCountInput.value) > wrongTotalForRandom || !wrongRandomCountInput.value) {
+        wrongRandomCountInput.value = wrongTotalForRandom;
+      }
+      startWrongRandomBtn.disabled = !wrongTotalForRandom;
+      const lastSetId = getLastSetId();
+      const lastWrongSetId = getLastWrongSetId();
+      const baseButtons = quizSets.map((set) => {
+        const wrongCountBySet = wrongItems.filter(item => item.setId === set.id).length;
+        const isLastSet = set.id === lastSetId;
+        const isLastWrongSet = set.id === lastWrongSetId;
+        const progress = getSetProgressSummary(set.id, set.questions.length);
+        const progressPct = progress.total ? Math.round((progress.answered / progress.total) * 100) : 0;
+        const progressHtml = progress.answered ? `
+          <div class="category-progress">
+            <div class="category-progress-text">
+              풀이 <strong>${progress.answered}/${progress.total}</strong> · 정답 ${progress.correct} · ${progressPct}%
+              ${progress.answered < progress.total ? ' (이어풀기 가능)' : ' (완료)'}
+            </div>
+            <div class="mini-track"><div class="mini-fill" style="width:${progressPct}%"></div></div>
+          </div>
+        ` : '';
+        const setWrongProgress = getSetProgressSummary(`wrong-note-set-${set.id}`, wrongCountBySet);
+        const setWrongInProgress = setWrongProgress.answered > 0;
+        const totalPassCount = getPassCount(set.id);
+        const wrongPassCount = getPassCount(`wrong-note-set-${set.id}`);
+        const passCountHtml = (totalPassCount > 0 || wrongPassCount > 0) ? `
+          <div class="pass-count-text">
+            ↻ 세트 회독 <strong>${totalPassCount}</strong>회 · 오답노트 회독 <strong>${wrongPassCount}</strong>회
+          </div>
+        ` : '';
+        return `
+          <div class="category-row">
+            <button class="category-btn ${isLastSet ? 'last-opened' : ''}" data-id="${set.id}" data-type="normal">
+              <div style="width:100%;">
+                <div class="category-title">${set.title}</div>
+                <!--<div class="category-desc">${set.desc}</div>-->
+                ${progressHtml}
+                ${passCountHtml}
+              </div>
+            </button>
+            <div class="category-side">
+              <div class="badge">${set.questions.length}문제</div>
+              <button
+                class="odap-set-btn ${wrongCountBySet ? 'active' : ''} ${setWrongInProgress ? 'in-progress' : ''} ${isLastWrongSet ? 'last-opened' : ''}"
+                data-id="${set.id}"
+                data-type="set-wrong"
+                ${wrongCountBySet ? '' : 'disabled'}
+                title="${set.title} 오답노트 다시 풀기${setWrongInProgress ? ` (풀이 ${setWrongProgress.answered}/${setWrongProgress.total})` : ''} · 오답노트 회독 ${wrongPassCount}회"
+              >오답노트 ${wrongCountBySet}</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const wrongProgress = getSetProgressSummary('wrong-note-set', wrongItems.length);
+      const wrongProgressPct = wrongProgress.total ? Math.round((wrongProgress.answered / wrongProgress.total) * 100) : 0;
+      const wrongProgressHtml = wrongProgress.answered ? `
+        <div class="category-progress">
+          <div class="category-progress-text">
+            풀이 <strong>${wrongProgress.answered}/${wrongProgress.total}</strong> · 정답 ${wrongProgress.correct} · ${wrongProgressPct}%
+            ${wrongProgress.answered < wrongProgress.total ? ' (이어풀기 가능)' : ' (완료)'}
+          </div>
+          <div class="mini-track"><div class="mini-fill" style="width:${wrongProgressPct}%"></div></div>
+        </div>
+      ` : '';
+      const wrongButton = wrongItems.length > 0 ? `
+        <button class="category-btn ${wrongProgress.answered > 0 ? 'in-progress' : ''}" data-id="${wrongSet.id}" data-type="wrong">
+          <div style="width:100%;">
+            <div class="category-title">오답노트 다시 풀기</div>
+            <div class="category-desc">틀렸던 문제만 모아서 재도전합니다.</div>
+            ${wrongProgressHtml}
+          </div>
+          <div class="badge warn">${wrongItems.length}문제</div>
+        </button>
+      ` : `
+        <div class="history-item">
+          <div class="history-title">오답노트가 비어 있습니다</div>
+          <div class="history-meta">문제를 틀리면 자동으로 저장되고, 여기서 다시 풀 수 있습니다.</div>
+        </div>
+      `;
+
+      categoryList.innerHTML = quizSets.length
+        ? baseButtons + wrongButton
+        : `
+          <div class="history-item">
+            <div class="history-title">불러온 문제가 없습니다</div>
+            <div class="history-meta">"데이터 가져오기" 버튼으로 문제 데이터 파일(.json)을 선택해 주세요.</div>
+          </div>
+        `;
+
+      categoryList.querySelectorAll('.category-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset.type;
+          if (type === 'wrong') {
+            const wrongSetData = getWrongNoteSet();
+            if (wrongSetData.questions.length === 0) return;
+            startQuiz(wrongSetData, 'wrong', null, true);
+          } else {
+            const set = quizSets.find(item => item.id === btn.dataset.id);
+            setLastSetId(set.id);
+            startQuiz(set, 'normal');
+            applySetProgressResume(set.id);
+          }
+        });
+      });
+
+      categoryList.querySelectorAll('.odap-set-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btn.disabled) return;
+          const wrongSetData = getWrongNoteSet(btn.dataset.id);
+          if (!wrongSetData.questions.length) return;
+          setLastWrongSetId(btn.dataset.id);
+          startQuiz(wrongSetData, 'wrong');
+          applySetProgressResume(wrongSetData.id);
+        });
+      });
+
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (!quizSets.length) {
+        attemptCount.textContent = '0';
+        wrongCount.textContent = '0';
+        bestScore.textContent = '0%';
+        historyLabel.textContent = '불러온 문제가 없습니다';
+        historyList.innerHTML = '<div class="history-item"><div class="history-title">불러온 문제가 없습니다</div><div class="history-meta">"데이터 가져오기" 버튼으로 문제 데이터 파일(.json)을 선택해 주세요.</div></div>';
+        return;
+      }
+      const history = getHistory().sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt));
+      const wrongItems = getWrongNotes();
+      attemptCount.textContent = history.length;
+      wrongCount.textContent = wrongItems.length;
+      const best = history.length ? Math.max(...history.map(item => item.accuracy)) : 0;
+      bestScore.textContent = `${best}%`;
+      historyLabel.textContent = history.length ? '최근 학습 요약' : '아직 저장된 기록이 없습니다';
+
+      if (!history.length) {
+        historyList.innerHTML = '<div class="history-item"><div class="history-title">첫 학습을 시작해 보세요</div><div class="history-meta">세트를 끝까지 풀면 점수와 시각이 자동 저장됩니다.</div></div>';
+        return;
+      }
+
+      historyList.innerHTML = history.slice(0, 5).map(item => `
+        <div class="history-item">
+          <div class="history-top">
+            <div class="history-title">${item.title}</div>
+            <div class="history-score">${item.correct}/${item.total} · ${item.accuracy}%</div>
+          </div>
+          <div class="history-meta">${formatDate(item.playedAt)} · ${item.modeLabel}${item.random ? ' · 랜덤 출제' : ''}</div>
+        </div>
+      `).join('');
+    }
+
+    function getPreparedQuestions(set, mode = 'normal', requestedCount = null) {
+      const questions = set.id === 'all-random-set'
+        ? [...set.questions]
+        : getQuestionsWithMeta(set);
+      if (mode === 'all-random') {
+        const limit = Math.min(requestedCount || questions.length, questions.length);
+        return shuffleArray(questions).slice(0, limit);
+      }
+      if (mode === 'wrong' && requestedCount) {
+        const limit = Math.min(requestedCount, questions.length);
+        return shuffleArray(questions).slice(0, limit);
+      }
+      return getRandomEnabled() ? shuffleArray(questions) : questions;
+    }
+
+    function startQuiz(set, mode = 'normal', requestedCount = null, shouldClearProgress = false) {
+      // ===== 진행도 명시적 초기화 =====
+      if (shouldClearProgress) {
+        if (mode === 'wrong') {
+          // set은 이미 getWrongNoteSet()이 반환한 값이라 id에 'wrong-note-set-' 접두사가
+          // 포함돼 있음 (전체: 'wrong-note-set', 세트별: 'wrong-note-set-{원본세트id}').
+          // 여기서 접두사를 또 붙이면 실제 저장된 키와 달라져서 초기화가 안 되므로 그대로 사용합니다.
+          const wrongSetId = set ? set.id : 'wrong-note-set';
+          clearSetProgress(wrongSetId);
+        } else if (set) {
+          clearSetProgress(set.id);
+        }
+      }
+      
+      currentSet = set;
+      currentMode = mode;
+      currentRequestedCount = requestedCount;
+      currentQuestions = getPreparedQuestions(set, mode, requestedCount);
+      currentIndex = 0;
+      correctCountValue = 0;
+      answered = false;
+      autosavePaused = false;
+      currentSessionWrong = [];
+      currentResponses = Array(currentQuestions.length).fill(null);
+      homeView.style.display = 'none';
+      quizView.style.display = 'grid';
+      categoryPill.textContent = set.title;
+      modePill.textContent = mode === 'wrong'
+        ? (requestedCount ? `오답노트 랜덤 ${currentQuestions.length}제` : '오답노트 모드')
+        : mode === 'all-random'
+          ? `전체 랜덤 ${currentQuestions.length}제`
+          : (getRandomEnabled() ? '랜덤 출제 ON' : '기본 순서');
+      completeCard.style.display = 'none';
+      renderQuestion();
+    }
+
+    function getAnsweredCount() {
+      return currentResponses.filter(Boolean).length;
+    }
+
+    function isAllAnswered() {
+      return getAnsweredCount() === currentQuestions.length;
+    }
+
+    function renderResult(q, response) {
+      const isCorrect = response.isCorrect;
+      answered = true;
+      resultCard.style.display = 'block';
+      resultHead.className = `result-head ${isCorrect ? 'correct' : 'wrong'}`;
+      resultIcon.textContent = isCorrect ? 'O' : 'X';
+      resultTitle.textContent = isCorrect ? '정답입니다' : '오답입니다';
+      answerText.textContent = `${q.answer} (${q.answer === 'O' ? '옳음' : '틀림'})`;
+      renderRichText(explanationText, q.explanation);
+      btnO.disabled = true;
+      btnX.disabled = true;
+      progressText.textContent = `${currentIndex + 1} / ${currentQuestions.length} · 풀이 ${getAnsweredCount()}`;
+      progressFill.style.width = `${(getAnsweredCount() / currentQuestions.length) * 100}%`;
+      const isLastQuestion = currentIndex === currentQuestions.length - 1;
+      const allDone = isAllAnswered();
+      skipBtn.disabled = isLastQuestion;
+      nextBtn.style.display = '';
+      nextBtn.textContent = isLastQuestion ? '결과 보기' : '다음 문제';
+      nextBtn.disabled = isLastQuestion && !allDone;
+      toodapBtn.textContent = currentMode === 'wrong' ? '오답노트 삭제' : '오답노트 저장';
+      toodapBtn.style.display = isCorrect ? 'block' : 'none';
+      // 오답노트 모드에서도 다시 풀기 버튼 표시
+      retryBtn.style.display = 'block';
+      retryBtn.textContent = currentMode === 'wrong' ? '오답노트 다시 풀기' : '현재 세트 다시 풀기';
+
+      // 문제 번호 칩 테두리 표시(정답/오답 색상 구분)는 유지
+      questionIndexChip.classList.remove('chip-correct', 'chip-wrong');
+      if (isCorrect) {
+        questionIndexChip.classList.add('chip-correct');
+      } else {
+        questionIndexChip.classList.add('chip-wrong');
+      }
+
+      // ===== 오답노트 표시 기능 추가 =====
+      // 현재 문제가 오답노트에 저장되어 있는지 확인
+      const wrongNotes = getWrongNotes();
+      const isInWrongNote = wrongNotes.some(item => item.id === q.id);
+      const wrongNoteBadge = document.getElementById('wrongNoteBadge');
+      
+      // 오답노트 배지 표시/숨김 처리
+      if (wrongNoteBadge) {
+        if (isInWrongNote) {
+          wrongNoteBadge.style.display = 'inline-flex';
+          wrongNoteBadge.textContent = '📝 오답노트 저장됨';
+        } else {
+          wrongNoteBadge.style.display = 'none';
+        }
+      }
+    }
+
+    function updateUnansweredBtnState() {
+      unansweredBtn.disabled = !currentResponses.some(r => !r);
+    }
+
+    function renderQuestion() {
+      const q = currentQuestions[currentIndex];
+      const response = currentResponses[currentIndex];
+      answered = Boolean(response);
+      questionIndexChip.textContent = `문제 ${currentIndex + 1}`;
+      difficultyText.textContent = q.difficulty;
+      difficultyText.dataset.level = q.difficulty || '';
+      renderRichText(questionText, q.text);
+      progressText.textContent = `${currentIndex + 1} / ${currentQuestions.length} · 풀이 ${getAnsweredCount()}`;
+      progressFill.style.width = `${(getAnsweredCount() / currentQuestions.length) * 100}%`;
+      btnO.disabled = answered;
+      btnX.disabled = answered;
+      prevQuestionBtn.disabled = currentIndex === 0;
+      firstQuestionBtn.disabled = currentIndex === 0;
+      lastQuestionBtn.disabled = currentIndex === currentQuestions.length - 1;
+      updateUnansweredBtnState();
+      const isLastQuestion = currentIndex === currentQuestions.length - 1;
+      skipBtn.disabled = isLastQuestion;
+      skipBtn.textContent = '▶';
+      completeCard.style.display = 'none';
+      autoSaveBookmark();
+
+      if (response) {
+        renderResult(q, response);
+      } else {
+        resultCard.style.display = 'none';
+        questionIndexChip.classList.remove('chip-correct', 'chip-wrong');
+      }
+    }
+
+    // 문제를 보거나 답을 고를 때마다 조용히(토스트 없이) 현재 위치를 저장해서,
+    // 중간에 앱을 나가더라도 다음에 들어왔을 때 자동으로 이어풀기 카드가 뜨도록 합니다.
+    function autoSaveBookmark() {
+      if (autosavePaused) return;
+      const q = currentQuestions[currentIndex];
+      if (!q) return;
+      setBookmark(q);
+    }
+
+    function addWrongNote(question) {
+      const wrongItems = getWrongNotes();
+      const map = new Map(wrongItems.map(item => [item.id, item]));
+      map.set(question.id, question);
+      setWrongNotes(Array.from(map.values()));
+    }
+
+    function removeWrongNote(questionId) {
+      const wrongItems = getWrongNotes().filter(item => item.id !== questionId);
+      setWrongNotes(wrongItems);
+    }
+
+    const DIFFICULTY_LEVELS = ['기본', '보통', '심화'];
+
+    function persistQuestionDifficulty(question) {
+      // 문제은행(quizSets) 원본에 반영
+      const set = quizSets.find(s => s.id === question.setId);
+      if (set && Array.isArray(set.questions)) {
+        const orig = set.questions.find(item => item.id === question.id);
+        if (orig) orig.difficulty = question.difficulty;
+      }
+      saveQuizData();
+
+      // 오답노트에 같은 문제가 저장돼 있으면 함께 갱신
+      const wrongItems = getWrongNotes();
+      let wrongChanged = false;
+      wrongItems.forEach(item => {
+        if (item.id === question.id) {
+          item.difficulty = question.difficulty;
+          wrongChanged = true;
+        }
+      });
+      if (wrongChanged) setWrongNotes(wrongItems);
+    }
+
+    function cycleDifficulty() {
+      const q = currentQuestions[currentIndex];
+      if (!q) return;
+      const idx = DIFFICULTY_LEVELS.indexOf(q.difficulty);
+      const next = DIFFICULTY_LEVELS[(idx + 1) % DIFFICULTY_LEVELS.length];
+      q.difficulty = next;
+      difficultyText.textContent = next;
+      difficultyText.dataset.level = next;
+      persistQuestionDifficulty(q);
+    }
+
+    function handleAnswer(choice) {
+      if (currentResponses[currentIndex]) return;
+      const q = currentQuestions[currentIndex];
+      const isCorrect = q.answer === choice;
+      currentResponses[currentIndex] = { choice, isCorrect };
+
+      if (isCorrect) {
+        correctCountValue += 1;
+        if (currentMode === 'wrong' && getOdapEnabled()) removeWrongNote(q.id);
+      } else {
+        currentSessionWrong.push(q);
+        addWrongNote(q);
+      }
+
+      autoSaveBookmark();
+      recordSetProgress(q, currentResponses[currentIndex]);
+      updateUnansweredBtnState();
+
+      if (speedMode) {
+        questionIndexChip.classList.remove('chip-correct', 'chip-wrong');
+        questionIndexChip.classList.add(isCorrect ? 'chip-correct' : 'chip-wrong');
+        btnO.disabled = true;
+        btnX.disabled = true;
+        setTimeout(() => {
+          nextQuestion();
+        }, 450);
+      } else {
+        renderResult(q, currentResponses[currentIndex]);
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex === 0) return;
+      currentIndex -= 1;
+      autosavePaused = false; // 다른 문제로 이동하면 자동 저장을 다시 켭니다
+      renderQuestion();
+    }
+
+    function goToFirstQuestion() {
+      if (currentIndex === 0) return;
+      currentIndex = 0;
+      autosavePaused = false; // 다른 문제로 이동하면 자동 저장을 다시 켭니다
+      renderQuestion();
+    }
+
+    function goToLastQuestion() {
+      const lastIndex = currentQuestions.length - 1;
+      if (currentIndex === lastIndex) return;
+      currentIndex = lastIndex;
+      autosavePaused = false; // 다른 문제로 이동하면 자동 저장을 다시 켭니다
+      renderQuestion();
+    }
+
+    function goToFirstUnanswered() {
+      const targetIndex = currentResponses.findIndex(r => !r);
+      if (targetIndex < 0 || targetIndex === currentIndex) return;
+      currentIndex = targetIndex;
+      autosavePaused = false; // 다른 문제로 이동하면 자동 저장을 다시 켭니다
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentIndex === currentQuestions.length - 1) {
+        if (isAllAnswered()) {
+          showComplete();
+        }
+        return;
+      }
+      currentIndex += 1;
+      autosavePaused = false; // 다른 문제로 이동하면 자동 저장을 다시 켭니다
+      renderQuestion();
+    }
+
+    // 버튼을 길게 누르고 있으면 문제를 빠르게 앞/뒤로 넘기는 기능.
+    // - 누르는 즉시 한 번 이동하고, 일정 시간 이상 누르고 있으면 점점 빠르게 반복 이동합니다.
+    // - canRepeat이 false를 반환하면(예: 마지막 문제) 반복을 멈춰서, 길게 누르다가
+    //   실수로 결과 화면 등으로 넘어가지 않도록 합니다.
+    function attachLongPress(btn, action, { canRepeat, holdDelay = 420, startInterval = 190, minInterval = 60, accelStep = 16 } = {}) {
+      let holdTimer = null;
+      let repeatTimer = null;
+      let interval = startInterval;
+      let pressing = false;
+
+      function stop() {
+        pressing = false;
+        clearTimeout(holdTimer);
+        clearTimeout(repeatTimer);
+        holdTimer = null;
+        repeatTimer = null;
+        interval = startInterval;
+      }
+
+      function scheduleRepeat() {
+        repeatTimer = setTimeout(() => {
+          if (!pressing || btn.disabled || (canRepeat && !canRepeat())) { stop(); return; }
+          action();
+          interval = Math.max(minInterval, interval - accelStep);
+          scheduleRepeat();
+        }, interval);
+      }
+
+      btn.addEventListener('pointerdown', (e) => {
+        if (btn.disabled) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.cancelable) e.preventDefault();
+        pressing = true;
+        action();
+        btn.setPointerCapture && btn.setPointerCapture(e.pointerId);
+        holdTimer = setTimeout(() => {
+          if (!pressing || btn.disabled || (canRepeat && !canRepeat())) return;
+          scheduleRepeat();
+        }, holdDelay);
+      });
+
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(evt => {
+        btn.addEventListener(evt, stop);
+      });
+    }
+
+    function toodapQuestion() {
+
+      if(currentMode === 'wrong') {
+        const q = currentQuestions[currentIndex];
+        removeWrongNote(q.id);
+        showToast("삭제 완료");
+      } else {
+        const q = currentQuestions[currentIndex];
+        currentSessionWrong.push(q);
+        addWrongNote(q);        
+        showToast("저장 완료");
+      }
+    }
+
+    function saveAttempt(total, correct, accuracy) {
+      const history = getHistory();
+      history.push({
+        setId: currentSet.id,
+        title: currentSet.title,
+        total,
+        correct,
+        accuracy,
+        random: (currentMode === 'all-random' || (currentMode === 'wrong' && currentRequestedCount)) ? true : getRandomEnabled(),
+        mode: currentMode,
+        modeLabel: currentMode === 'wrong'
+          ? (currentRequestedCount ? `오답노트 랜덤 ${total}제` : '오답노트')
+          : currentMode === 'all-random'
+            ? `전체 랜덤 ${total}제`
+            : '일반 학습',
+        playedAt: new Date().toISOString()
+      });
+      setHistory(history);
+    }
+
+    function showComplete() {
+      const total = currentQuestions.length;
+      const answeredCount = getAnsweredCount();
+      const correctCount = currentResponses.filter(item => item && item.isCorrect).length;
+      const wrongAnsweredCount = currentResponses.filter(item => item && !item.isCorrect).length;
+      const unresolvedCount = total - correctCount;
+      const skippedCount = total - answeredCount;
+      const accuracy = total ? Math.round((correctCount / total) * 100) : 0;
+      correctCountValue = correctCount;
+      saveAttempt(total, correctCount, accuracy);
+      clearBookmark(); // 세트를 다 풀었으니 이어풀기 자동 저장은 정리합니다
+      if (currentSet) clearSetProgress(currentSet.id); // 결과보기까지 도달했으니 세트/오답노트별 진행도도 초기화합니다
+      if (currentSet && isProgressTrackedMode()) incrementPassCount(currentSet.id); // 회독수 누적
+
+      completeCard.style.display = 'block';
+      resultCard.style.display = 'none';
+      totalNum.textContent = total;
+      correctNum.textContent = correctCount;
+      wrongNum.textContent = unresolvedCount;
+      accuracyNum.textContent = `${accuracy}%`;
+      scoreLine.textContent = skippedCount
+        ? `${currentSet.title} 세트를 마쳤습니다. 총 ${total}문제 중 ${correctCount}문제를 맞혔고, ${wrongAnsweredCount}문제는 오답, ${skippedCount}문제는 미응답으로 남았습니다.${(currentMode === 'all-random' || (currentMode === 'wrong' && currentRequestedCount)) ? ' 선택한 문제 수 기준으로 새 랜덤 테스트를 다시 시작할 수 있습니다.' : ''}`
+        : `${currentSet.title} 세트를 모두 풀었습니다. 총 ${total}문제 중 ${correctCount}문제를 맞혔고, ${wrongAnsweredCount}문제를 틀렸습니다.${(currentMode === 'all-random' || (currentMode === 'wrong' && currentRequestedCount)) ? ' 선택한 문제 수 기준으로 새 랜덤 테스트를 다시 시작할 수 있습니다.' : ''}`;
+      progressFill.style.width = `${(answeredCount / total) * 100}%`;
+      
+      // ===== 오답노트 모드에서의 버튼 텍스트 조정 =====
+      if (currentMode === 'wrong') {
+        restartBtn.textContent = '오답노트 다시 풀기';
+        goWrongNoteBtn.style.display = 'none';  // 오답노트 모드에서는 "오답노트 다시 풀기" 버튼 숨김
+      } else {
+        restartBtn.textContent = '이 세트 다시 풀기';
+        goWrongNoteBtn.style.display = 'block';
+      }
+      
+      renderHistory();
+    }
+
+    function goHome() {
+      quizView.style.display = 'none';
+      homeView.style.display = 'block';
+      completeCard.style.display = 'none';
+      resultCard.style.display = 'none';
+      renderHome();
+    }
+
+    function startAllRandomQuiz() {
+      const totalQuestions = getAllQuestions().length;
+      const requested = Number(questionCountInput.value);
+      if (!requested || requested < 1) {
+        alert('출제 문제 수를 1 이상으로 입력해 주세요.');
+        questionCountInput.focus();
+        return;
+      }
+      const safeCount = Math.min(requested, totalQuestions);
+      questionCountInput.value = safeCount;
+      setStoredQuestionCount(safeCount);
+      const allRandomSet = {
+        id: 'all-random-set',
+        title: '전체 랜덤 테스트',
+        desc: `전체 문제 중 ${safeCount}문항 랜덤 출제`,
+        source: '난이도',
+        questions: getAllQuestions()
+      };
+      startQuiz(allRandomSet, 'all-random', safeCount);
+    }
+
+    function startWrongRandomQuiz() {
+      const wrongItems = getWrongNotes();
+      const totalWrong = wrongItems.length;
+      if (!totalWrong) {
+        alert('현재 저장된 오답노트가 없습니다.');
+        return;
+      }
+      const requested = Number(wrongRandomCountInput.value);
+      if (!requested || requested < 1) {
+        alert('출제 문제 수를 1 이상으로 입력해 주세요.');
+        wrongRandomCountInput.focus();
+        return;
+      }
+      const safeCount = Math.min(requested, totalWrong);
+      wrongRandomCountInput.value = safeCount;
+      const wrongRandomSet = {
+        id: 'wrong-note-set',
+        title: '오답노트 랜덤 테스트',
+        desc: `오답노트 중 ${safeCount}문항 랜덤 출제`,
+        questions: uniqueById(wrongItems)
+      };
+      startQuiz(wrongRandomSet, 'wrong', safeCount);
+    }
+
+    btnO.addEventListener('click', () => handleAnswer('O'));
+    btnX.addEventListener('click', () => handleAnswer('X'));
+    attachLongPress(prevQuestionBtn, prevQuestion, { canRepeat: () => currentIndex > 0 });
+    attachLongPress(skipBtn, nextQuestion, { canRepeat: () => currentIndex < currentQuestions.length - 1 });
+    questionIndexChip.addEventListener('click', nextQuestion);
+    bookmarkResumeBtn.addEventListener('click', resumeFromBookmark);
+    bookmarkClearBtn.addEventListener('click', () => {
+      clearBookmark();
+      showToast('이어풀기 저장을 취소했습니다');
+      renderBookmarkResumeCard();
+    });
+    nextBtn.addEventListener('click', nextQuestion);
+    firstQuestionBtn.addEventListener('click', goToFirstQuestion);
+    lastQuestionBtn.addEventListener('click', goToLastQuestion);
+    unansweredBtn.addEventListener('click', goToFirstUnanswered);
+    speedBtn.addEventListener('click', () => {
+      speedMode = !speedMode;
+      speedBtn.classList.toggle('active', speedMode);
+    });
+    difficultyText.addEventListener('click', cycleDifficulty);
+    retryBtn.addEventListener('click', () => {
+      if (!currentSet && !currentMode) return;
+      // shouldClearProgress = true로 설정하여 진행도 명시적 초기화
+      startQuiz(currentSet, currentMode, currentRequestedCount, true);
+    });
+    toodapBtn.addEventListener('click', toodapQuestion);
+    backBtn.addEventListener('click', goHome);
+    goHomeBtn.addEventListener('click', goHome);
+    restartBtn.addEventListener('click', () => {
+      if (!currentSet && !currentMode) return;
+      // shouldClearProgress = true로 설정하여 진행도 명시적 초기화
+      startQuiz(currentSet, currentMode, currentRequestedCount, true);
+    });
+    goWrongNoteBtn.addEventListener('click', () => {
+      const wrongSet = getWrongNoteSet();
+      if (!wrongSet.questions.length) {
+        alert('현재 저장된 오답노트가 없습니다.');
+        return;
+      }
+      startQuiz(wrongSet, 'wrong', null, true);
+    });
+
+    randomToggle.checked = getRandomEnabled();
+    questionCountInput.value = getStoredQuestionCount();
+    randomToggle.addEventListener('change', (e) => {
+      setRandomEnabled(e.target.checked);
+      renderHome();
+    });
+
+    odapToggle.checked = getOdapEnabled();
+    odapToggle.addEventListener('change', (e) => {
+      setOdapEnabled(e.target.checked);
+      renderHome();
+    });
+
+    questionCountInput.addEventListener('change', (e) => {
+      const totalQuestions = getAllQuestions().length;
+      const value = Number(e.target.value);
+      const safeValue = !value || value < 1 ? 1 : Math.min(value, totalQuestions);
+      e.target.value = safeValue;
+      setStoredQuestionCount(safeValue);
+    });
+
+    startRandomSubsetBtn.addEventListener('click', startAllRandomQuiz);
+
+    wrongRandomCountInput.addEventListener('change', (e) => {
+      const totalWrong = getWrongNotes().length;
+      const value = Number(e.target.value);
+      const safeValue = !value || value < 1 ? 1 : Math.min(value, totalWrong || 1);
+      e.target.value = safeValue;
+    });
+
+    startWrongRandomBtn.addEventListener('click', startWrongRandomQuiz);
+
+    clearWrongBtn.addEventListener('click', () => {
+      if (!confirm('오답노트를 비울까요?')) return;
+      setWrongNotes([]);
+      // 오답노트 관련 진행도(전체 오답노트 + 세트별 오답노트)도 함께 정리합니다.
+      const map = getSetProgressMap();
+      Object.keys(map).forEach((key) => {
+        if (key === 'wrong-note-set' || key.startsWith('wrong-note-set-')) delete map[key];
+      });
+      saveSetProgressMap(map);
+      renderHome();
+    });
+
+    resetAllBtn.addEventListener('click', () => {
+      if (!confirm('점수 기록과 오답노트, 세트별 학습진행도·회독수를 모두 삭제할까요?')) return;
+      sessionStorage.removeItem(STORAGE_KEYS.history);
+      sessionStorage.removeItem(STORAGE_KEYS.wrongNotes);
+      sessionStorage.removeItem(STORAGE_KEYS.random);
+      sessionStorage.removeItem(STORAGE_KEYS.randomCount);
+      sessionStorage.removeItem(STORAGE_KEYS.setProgress);
+      sessionStorage.removeItem(STORAGE_KEYS.passCounts);
+      randomToggle.checked = false;
+      odapToggle.checked = false;
+      questionCountInput.value = getAllQuestions().length;
+      renderHome();
+    });
+
+    function sortWrongNotesById(items) {
+      return [...items].sort((a, b) =>
+        String(a.id).localeCompare(String(b.id), undefined, { numeric: true, sensitivity: 'base' })
+      );
+    }
+
+    function buildBackupPayload() {
+      return {
+        exportedAt: new Date().toISOString(),
+        siteConfig: {
+          pageTitle: document.title,
+          brand: document.getElementById('brandLabel').textContent,
+          eyebrow: document.getElementById('eyebrowLabel').textContent,
+          heading: document.getElementById('headingLabel').textContent,
+          subtitle: document.getElementById('subtitleLabel').textContent
+        },
+        questions: quizSets,
+        history: getHistory(),
+        wrongNotes: sortWrongNotesById(getWrongNotes()),
+        bookmark: getBookmark(),
+        setProgress: getSetProgressMap(),
+        passCounts: getPassCountsMap(),
+        settings: {
+          random: getRandomEnabled(),
+          odap: getOdapEnabled(),
+          randomCount: getStoredQuestionCount()
+        }
+      };
+    }
+
+    function exportBackup() {
+      const backup = buildBackupPayload();
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const stamp = formatDate(new Date()).replace(/[.: ]/g, '-');
+      const safeTitle = (document.title || '민법OX').replace(/[\\/:*?"<>|]/g, '').trim();
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${safeTitle}_${stamp}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('백업 파일을 내보냈습니다');
+    }
+
+    function applyImportedData(data) {
+      // 예전 형식: 문제 배열만 담긴 파일
+      if (Array.isArray(data)) {
+        quizSets = data;
+        saveQuizData();
+        showToast(`문제 데이터를 불러왔습니다 (전체 ${getAllQuestions().length}문제 · 오답노트 ${getWrongNotes().length}개)`);
+        return true;
+      }
+      if (data && typeof data === 'object') {
+        // quiz-data.json 형식: { siteConfig, quizSets } — 문제/문구만 교체, 기록은 그대로
+        if (Array.isArray(data.quizSets)) {
+          quizSets = data.quizSets;
+          saveQuizData();
+          if (data.siteConfig) applySiteConfig(data.siteConfig);
+          showToast(`문제 데이터를 불러왔습니다 (전체 ${getAllQuestions().length}문제 · 오답노트 ${getWrongNotes().length}개)`);
+          return true;
+        }
+        // 내보내기로 만든 전체 백업 파일 (문제 + 오답노트 + 기록 + 설정)
+        const hasQuestions = Array.isArray(data.questions);
+        const confirmMsg = hasQuestions
+          ? '가져오기를 하면 현재 문제·오답노트·기록이 파일 내용으로 덮어써집니다. 계속할까요?'
+          : '가져오기를 하면 현재 오답노트·기록이 파일 내용으로 덮어써집니다. 계속할까요?';
+        if (!confirm(confirmMsg)) return false;
+
+        if (hasQuestions) { quizSets = data.questions; saveQuizData(); }
+        if (data.siteConfig) applySiteConfig(data.siteConfig);
+        if (Array.isArray(data.history)) setHistory(data.history);
+        setWrongNotes(Array.isArray(data.wrongNotes) ? data.wrongNotes : []);
+        if (data.bookmark && typeof data.bookmark === 'object') {
+          saveJSON(STORAGE_KEYS.bookmark, data.bookmark);
+        } else {
+          clearBookmark();
+        }
+        if (data.setProgress && typeof data.setProgress === 'object') {
+          saveSetProgressMap(data.setProgress);
+        } else {
+          saveSetProgressMap({});
+        }
+        if (data.passCounts && typeof data.passCounts === 'object') {
+          savePassCountsMap(data.passCounts);
+        } else {
+          savePassCountsMap({});
+        }
+        if (data.settings) {
+          if (typeof data.settings.random === 'boolean') setRandomEnabled(data.settings.random);
+          if (typeof data.settings.odap === 'boolean') setOdapEnabled(data.settings.odap);
+          if (data.settings.randomCount) setStoredQuestionCount(data.settings.randomCount);
+        }
+        showToast(`백업 데이터를 불러왔습니다 (전체 ${getAllQuestions().length}문제 · 오답노트 ${getWrongNotes().length}개)`);
+        return true;
+      }
+      throw new Error('알 수 없는 파일 형식');
+    }
+
+    function showImportedFileLabel(name) {
+      if (!name) {
+        importedFileLabel.style.display = 'none';
+        importedFileLabel.textContent = '';
+        return;
+      }
+      importedFileLabel.textContent = `마지막으로 불러온 파일: ${name}`;
+      importedFileLabel.style.display = '';
+    }
+
+    function handleImportFile(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          const applied = applyImportedData(data);
+          if (applied) {
+            randomToggle.checked = getRandomEnabled();
+            odapToggle.checked = getOdapEnabled();
+            saveJSON(STORAGE_KEYS.lastImportedFile, file.name);
+            showImportedFileLabel(file.name);
+            renderHome();
+            questionCountInput.value = getAllQuestions().length;
+            wrongRandomCountInput.value = getWrongNotes().length;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        } catch (err) {
+          alert('파일을 읽는 중 오류가 발생했습니다. 올바른 JSON 백업 파일인지 확인해 주세요.');
+        } finally {
+          e.target.value = '';
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    exportDataBtn.addEventListener('click', exportBackup);
+    importDataBtn.addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', handleImportFile);
+
+    function initApp() {
+      const savedSiteConfig = loadJSON(STORAGE_KEYS.siteConfig, null);
+      if (savedSiteConfig) applySiteConfig(savedSiteConfig, false);
+      questionCountInput.value = getStoredQuestionCount();
+      showImportedFileLabel(loadJSON(STORAGE_KEYS.lastImportedFile, null));
+      renderHome();
+    }
+
+    initApp();
+  </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</html>
